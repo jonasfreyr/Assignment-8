@@ -90,8 +90,8 @@ def get_new_position_for_direction(direction, indexX, indexY):
 
 indexX = 1
 indexY = 1
-ROW3 = "SE|EW|WS|"
-ROW2 = "NES|WS|NS|"
+ROW3 = "ES|EW|SW|"
+ROW2 = "NES|SW|NS|"
 ROW1 = "N|N|V|"
 while True:
     curr_row = get_row(indexY, ROW1, ROW2, ROW3)
