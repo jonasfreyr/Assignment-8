@@ -53,7 +53,6 @@ def print_directions(directions):
 
 def get_directions(indexX, row, seperator):
     """ Returns the location of the n-th occurrence of an element within a sequence """
-    # ... and the rest is up to you
     index = 0
     counter = 0
     last_divider = 0
@@ -65,7 +64,7 @@ def get_directions(indexX, row, seperator):
                 return row[last_divider:index]
 
             else:
-                last_divider = index
+                last_divider = index + 1
 
         index += 1
 
@@ -76,23 +75,38 @@ def can_move_to_direction(indexX, row, direction):
 
     return direction in directions
 
-def move_to_direction(direction, indexX, indexY):
+def get_new_position_for_direction(direction, indexX, indexY):
     if direction == "N":
-        return indexY + 1
+        return indexX, indexY + 1
+    elif direction == "S":
+        return indexX, indexY - 1
+    elif direction == "W":
+        return indexX + 1, indexY
+    elif direction == "E":
+        return indexX - 1, indexY
 
 
 
 indexX = 1
 indexY = 1
-ROW1 = "N|N|V"
-ROW2 = "NES|WS|NS"
-ROW3 = "SW|EW|ES"
+ROW1 = "N|N|V|"
+ROW2 = "NES|WS|NS|"
+ROW3 = "SW|EW|ES|"
 while True:
     curr_row = get_row(indexY, ROW1, ROW2, ROW3)
+
+    if get_directions(indexX, curr_row, "|") == "V":
+        print("Victory!")
+        break
+
     print("You can travel:", print_directions(get_directions(indexX, curr_row, "|")))
 
     direction = input("Direction: ")
     direction = direction.upper()
 
-    print(can_move_to_direction(indexY, curr_row, direction))
+    print(can_move_to_direction(indexX, curr_row, direction))
 
+    if can_move_to_direction(indexX, curr_row, direction):
+        indexX, indexY = get_new_position_for_direction(direction, indexX, indexY)
+    else:
+        print("Not a valid direction!")
