@@ -82,17 +82,17 @@ def get_new_position_for_direction(direction, indexX, indexY):
     elif direction == "S":
         return indexX, indexY - 1
     elif direction == "W":
-        return indexX + 1, indexY
-    elif direction == "E":
         return indexX - 1, indexY
+    elif direction == "E":
+        return indexX + 1, indexY
 
 
 
 indexX = 1
 indexY = 1
-ROW1 = "N|N|V|"
+ROW3 = "SE|EW|WS|"
 ROW2 = "NES|WS|NS|"
-ROW3 = "SW|EW|ES|"
+ROW1 = "N|N|V|"
 while True:
     curr_row = get_row(indexY, ROW1, ROW2, ROW3)
 
