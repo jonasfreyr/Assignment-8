@@ -105,8 +105,6 @@ while True:
     direction = input("Direction: ")
     direction = direction.upper()
 
-    print(can_move_to_direction(indexX, curr_row, direction))
-
     if can_move_to_direction(indexX, curr_row, direction):
         indexX, indexY = get_new_position_for_direction(direction, indexX, indexY)
     else:
