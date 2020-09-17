@@ -1,4 +1,6 @@
 '''
+Github link: https://github.com/jonasfreyr/Assignment-8
+
 # # # # # # #
 #   #   #   #
 # # # _ # # #
@@ -52,7 +54,6 @@ def print_directions(directions):
     return string[:-4] + "."
 
 def get_directions(indexX, row, seperator):
-    """ Returns the location of the n-th occurrence of an element within a sequence """
     index = 0
     counter = 0
     last_divider = 0
