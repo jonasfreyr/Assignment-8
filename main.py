@@ -76,15 +76,17 @@ def can_move_to_direction(indexX, row, direction):
 
     return direction in directions
 
-def move_to_direction(indexX, row, direction):
-    pass
+def move_to_direction(direction, indexX, indexY):
+    if direction == "N":
+        return indexY + 1
+
 
 
 indexX = 1
 indexY = 1
-ROW1 = "N|NES|E"
-ROW2 = "N|WS|EW"
-ROW3 = "V|NS|WS"
+ROW1 = "N|N|V"
+ROW2 = "NES|WS|NS"
+ROW3 = "SW|EW|ES"
 while True:
     curr_row = get_row(indexY, ROW1, ROW2, ROW3)
     print("You can travel:", print_directions(get_directions(indexX, curr_row, "|")))
