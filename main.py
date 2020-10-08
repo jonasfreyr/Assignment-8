@@ -23,15 +23,13 @@ Notum síðan | til að skipta upp ROW í cells
 '''
 
 
-def get_row(indexY, row1, row2, row3):
-    if indexY == 1:
-        return row1
+def get_row(indexY, rows):
+    return rows[indexY]
 
-    elif indexY == 2:
-        return row2
 
-    elif indexY == 3:
-        return row3
+def check_lever(directions):
+    return "L" in directions
+
 
 def print_directions(directions):
     string = ""
@@ -53,28 +51,15 @@ def print_directions(directions):
     # Til að taka út síðasta "or" og bæta við "."
     return string[:-4] + "."
 
-def get_directions(indexX, row, seperator):
-    index = 0
-    counter = 0
-    last_divider = 0
-    for char in row:
-        if char == seperator:
-            counter += 1
 
-            if counter == indexX:
-                return row[last_divider:index]
-
-            else:
-                last_divider = index + 1
-
-        index += 1
-
-    return
+def get_directions(indexX, row):
+    return row[indexX]
 
 def can_move_to_direction(indexX, row, direction):
-    directions = get_directions(indexX, row, "|")
+    directions = get_directions(indexX, row)
 
     return direction in directions
+
 
 def get_new_position_for_direction(direction, indexX, indexY):
     if direction == "N":
@@ -87,20 +72,40 @@ def get_new_position_for_direction(direction, indexX, indexY):
         return indexX + 1, indexY
 
 
+def remove_lever(indexX, indexY, rows):
+    row = rows[indexY].pop(indexX)
 
-indexX = 1
-indexY = 1
-ROW3 = "ES|EW|SW|"
-ROW2 = "NES|SW|NS|"
-ROW1 = "N|N|V|"
+    row = row[:-1]
+
+    rows[indexY].insert(indexX, row)
+
+    return rows
+
+
+coins = 0
+indexX = 0
+indexY = 0
+rows = [["ES", "EWL", "SW"],
+       ["NESL", "SWL","NSL"],
+       ["N", "N", "V"]]
+rows.reverse()
+
 while True:
-    curr_row = get_row(indexY, ROW1, ROW2, ROW3)
-
-    if get_directions(indexX, curr_row, "|") == "V":
+    curr_row = get_row(indexY, rows)
+    directions = get_directions(indexX, curr_row)
+    if directions == "V":
         print("Victory!")
         break
 
-    print("You can travel:", print_directions(get_directions(indexX, curr_row, "|")))
+    if check_lever(directions):
+        choice = input("Pull a lever (y/n): ")
+
+        if choice.lower() == "y":
+            coins += 1
+            print(f"You received 1 coin, your total is now {coins}.")
+            rows = remove_lever(indexX, indexY, rows)
+
+    print("You can travel:", print_directions(directions))
 
     direction = input("Direction: ")
     direction = direction.upper()
