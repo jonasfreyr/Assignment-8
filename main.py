@@ -45,8 +45,8 @@ def print_directions(directions):
 
         elif direction == "W":
             string += f"({direction})est"
-
-        string += " or "
+        if direction != "L":
+            string += " or "
 
     # Til að taka út síðasta "or" og bæta við "."
     return string[:-4] + "."
@@ -72,16 +72,6 @@ def get_new_position_for_direction(direction, indexX, indexY):
         return indexX + 1, indexY
 
 
-def remove_lever(indexX, indexY, rows):
-    row = rows[indexY].pop(indexX)
-
-    row = row[:-1]
-
-    rows[indexY].insert(indexX, row)
-
-    return rows
-
-
 coins = 0
 indexX = 0
 indexY = 0
@@ -90,20 +80,21 @@ rows = [["ES", "EWL", "SW"],
        ["N", "N", "V"]]
 rows.reverse()
 
+valid = True
 while True:
     curr_row = get_row(indexY, rows)
     directions = get_directions(indexX, curr_row)
     if directions == "V":
-        print("Victory!")
+        print(f"Victory! Total coins {coins}.")
         break
 
-    if check_lever(directions):
+    if check_lever(directions) and valid:
         choice = input("Pull a lever (y/n): ")
 
         if choice.lower() == "y":
             coins += 1
             print(f"You received 1 coin, your total is now {coins}.")
-            rows = remove_lever(indexX, indexY, rows)
+
 
     print("You can travel:", print_directions(directions))
 
@@ -112,5 +103,7 @@ while True:
 
     if can_move_to_direction(indexX, curr_row, direction):
         indexX, indexY = get_new_position_for_direction(direction, indexX, indexY)
+        valid = True
     else:
         print("Not a valid direction!")
+        valid = False
