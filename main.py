@@ -110,7 +110,6 @@ def play():
             valid = False
 
 def main():
-    while play():
-        pass
+    while play(): pass
 
 main()
