@@ -1,3 +1,5 @@
+import random
+
 '''
 Github link: https://github.com/jonasfreyr/Assignment-8
 
@@ -81,17 +83,23 @@ def play():
     rows.reverse()
 
     valid = True
+
+    YES_OR_NO = ["y", "n"]
+    N_E_S_W = ["n", "e", "s", "w"]
+
+    moves = 0
+
     while True:
         curr_row = get_row(indexY, rows)
         directions = get_directions(indexX, curr_row)
         if directions == "V":
-            print(f"Victory! Total coins {coins}.")
+            print(f"Victory! Total coins {coins}. Moves {moves}.")
 
             return input("Play again (y/n): ").lower() == "y"
 
         if check_lever(directions) and valid:
-            choice = input("Pull a lever (y/n): ")
-
+            choice = random.choice(YES_OR_NO)
+            print("Pull a lever (y/n):", choice)
             if choice.lower() == "y":
                 coins += 1
                 print(f"You received 1 coin, your total is now {coins}.")
@@ -99,7 +107,8 @@ def play():
 
         print("You can travel:", print_directions(directions))
 
-        direction = input("Direction: ")
+        direction = random.choice(N_E_S_W)
+        print("Direction:", direction)
         direction = direction.upper()
 
         if can_move_to_direction(indexX, curr_row, direction):
@@ -109,7 +118,11 @@ def play():
             print("Not a valid direction!")
             valid = False
 
+        moves += 1
+
 def main():
+    seed = int(input("Input seed: "))
+    random.seed(seed)
     while play(): pass
 
 main()
