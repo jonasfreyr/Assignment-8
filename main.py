@@ -71,39 +71,46 @@ def get_new_position_for_direction(direction, indexX, indexY):
     elif direction == "E":
         return indexX + 1, indexY
 
+def play():
+    coins = 0
+    indexX = 0
+    indexY = 0
+    rows = [["ES", "EWL", "SW"],
+        ["NESL", "SWL","NSL"],
+        ["N", "N", "V"]]
+    rows.reverse()
 
-coins = 0
-indexX = 0
-indexY = 0
-rows = [["ES", "EWL", "SW"],
-       ["NESL", "SWL","NSL"],
-       ["N", "N", "V"]]
-rows.reverse()
+    valid = True
+    while True:
+        curr_row = get_row(indexY, rows)
+        directions = get_directions(indexX, curr_row)
+        if directions == "V":
+            print(f"Victory! Total coins {coins}.")
 
-valid = True
-while True:
-    curr_row = get_row(indexY, rows)
-    directions = get_directions(indexX, curr_row)
-    if directions == "V":
-        print(f"Victory! Total coins {coins}.")
-        break
+            return input("Play again (y/n): ").lower() == "y"
 
-    if check_lever(directions) and valid:
-        choice = input("Pull a lever (y/n): ")
+        if check_lever(directions) and valid:
+            choice = input("Pull a lever (y/n): ")
 
-        if choice.lower() == "y":
-            coins += 1
-            print(f"You received 1 coin, your total is now {coins}.")
+            if choice.lower() == "y":
+                coins += 1
+                print(f"You received 1 coin, your total is now {coins}.")
 
 
-    print("You can travel:", print_directions(directions))
+        print("You can travel:", print_directions(directions))
 
-    direction = input("Direction: ")
-    direction = direction.upper()
+        direction = input("Direction: ")
+        direction = direction.upper()
 
-    if can_move_to_direction(indexX, curr_row, direction):
-        indexX, indexY = get_new_position_for_direction(direction, indexX, indexY)
-        valid = True
-    else:
-        print("Not a valid direction!")
-        valid = False
+        if can_move_to_direction(indexX, curr_row, direction):
+            indexX, indexY = get_new_position_for_direction(direction, indexX, indexY)
+            valid = True
+        else:
+            print("Not a valid direction!")
+            valid = False
+
+def main():
+    while play():
+        pass
+
+main()
